@@ -333,7 +333,7 @@ namespace EcoParkAnimalManagementSystem_EAMS_
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("EcoPark Animal Management System\nVersion 1.0\n\n By:Richmond Boakye",
+            MessageBox.Show("EcoPark Animal Management System\nVersion 1.0\n\n By: Richmond Boakye",
                 "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
