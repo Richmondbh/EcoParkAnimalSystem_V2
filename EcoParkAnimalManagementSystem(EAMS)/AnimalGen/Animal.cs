@@ -13,14 +13,13 @@ namespace EcoParkAnimalManagementSystem_EAMS_.AnimalGen
 
     public abstract class Animal: IAnimal
     {
-        private static int nextId = 1;
 
         // Backing fields  for only properties that needs validation
         private int age;
         private double weight;
         private int sleepTimeHours;
         // Auto-properties for those with no validation needed
-        public int Id { get; private set; }
+        public int Id { get;  set; }
         public string Name { get; set; } = "Unknown";
         public GenderType Gender { get; set; } = GenderType.Unknown;
         public string ImagePath { get; set; } = string.Empty;
@@ -67,7 +66,7 @@ namespace EcoParkAnimalManagementSystem_EAMS_.AnimalGen
         // Initializes a new instance of the Animal class with default values.
         protected Animal()
         {
-            Id = nextId++;
+         
             Name = "Unknown";
             Age = 0;
             Gender = GenderType.Unknown;

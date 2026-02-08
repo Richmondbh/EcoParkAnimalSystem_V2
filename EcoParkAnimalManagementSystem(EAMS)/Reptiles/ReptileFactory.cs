@@ -24,7 +24,7 @@ namespace EcoParkAnimalManagementSystem_EAMS_.Reptiles
         public static Reptile CreateReptile(ReptileSpecies species, double bodyLength,
             bool livesInWater, int aggressivenessLevel)
         {
-         
+
             Reptile reptile = null;
 
             switch (species)
@@ -38,10 +38,11 @@ namespace EcoParkAnimalManagementSystem_EAMS_.Reptiles
                     break;
 
                 default:
-                    reptile = new Reptile(bodyLength, livesInWater, aggressivenessLevel);
-                    break;
-            }
+                    throw new ArgumentException("Unknown reptile species");
 
+
+                    
+            }
             return reptile;
         }
     }

@@ -57,6 +57,14 @@ namespace EcoParkAnimalManagementSystem_EAMS_.Mammals
             TailLength = tailLength;
         }
 
+        // For mammalfactory
+        protected Mammal(int numberOfTeeth, double tailLength) : base()
+        {
+            Category = CategoryType.Mammal;
+            NumberOfTeeth = numberOfTeeth;
+            TailLength = tailLength;
+        }
+
         public override string ToString()
         {
             return $"{base.ToString()}\n" +

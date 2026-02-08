@@ -58,6 +58,15 @@ namespace EcoParkAnimalManagementSystem_EAMS_.Reptiles
         }
 
 
+        protected Reptile(double bodyLength, bool livesInWater, int aggressivenessLevel) : base()
+        {
+            BodyLength = bodyLength;
+            LivesInWater = livesInWater;
+            AggressivenessLevel = aggressivenessLevel;
+            Category = CategoryType.Reptile;
+
+        }
+
         public override string ToString()
         {
             return $"{base.ToString()}\n" +
