@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EcoParkAnimalManagementSystem_EAMS_.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,8 @@ namespace EcoParkAnimalManagementSystem_EAMS_.AnimalGen
 
 
     // This is the base class representing common properties and the behaviors for all the animals.
-    public class Animal
+    public abstract class Animal: IAnimal
+
     {
         private static int nextId = 1;
 
