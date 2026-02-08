@@ -7,27 +7,15 @@ using System.Threading.Tasks;
 
 namespace EcoParkAnimalManagementSystem_EAMS_.Mammals
 {
-    public class Mammal : Animal
+    public abstract class Mammal : Animal
     {
         /// <summary>
-        /// Represents a mammal animal with a mammal-specific characteristics.
-        /// This also inherits from Animal base class.
+        /// Abstract class representing mammals in the EcoPark system.
+        /// Inherits from Animal and adds mammal-specific characteristics.
         /// </summary>
         private int numberOfTeeth;
         private double tailLength;
-
-        // Default constructor for Mammal for flexibility
-        public Mammal() : base()
-        {
-
-        }
-
-        // Parameterized constructor for Mammal.
-        public Mammal(int numOfTeeth, double tailLength) : base()
-        {
-            NumberOfTeeth = numOfTeeth;
-            TailLength = tailLength;
-        }
+        
 
         public int NumberOfTeeth
         {
@@ -51,6 +39,22 @@ namespace EcoParkAnimalManagementSystem_EAMS_.Mammals
                     tailLength = value;
                 }
             }
+        }
+
+        // Initializes a new instance of the Mammal class.
+        protected Mammal() : base()
+        {
+            Category = CategoryType.Mammal;
+            NumberOfTeeth = 0;
+        }
+
+        // Initializes a new instance of the Mammal class with specified values.
+        protected Mammal(string name, int age, GenderType gender, int numberOfTeeth, double tailLength)
+            : base(name, age, gender)
+        {
+            Category = CategoryType.Mammal;
+            NumberOfTeeth = numberOfTeeth;
+            TailLength = tailLength;
         }
 
         public override string ToString()

@@ -11,21 +11,11 @@ namespace EcoParkAnimalManagementSystem_EAMS_.Reptiles
     /// Represents a reptile animal with specific characteristics.
     /// This nherits from Animal base class.
     /// </summary>
-    public class Reptile : Animal
+    public abstract class Reptile : Animal
     {
         private double bodyLength;
         private int aggressivenessLevel;
 
-        public Reptile() : base()
-        {
-        }
-
-        public Reptile(double bodyLength, bool livesInWater, int aggressivenessLevel) : base()
-        {
-            BodyLength = bodyLength;
-            LivesInWater = livesInWater;
-            AggressivenessLevel = aggressivenessLevel;
-        }
 
         public bool LivesInWater { get; set; } = false;
 
@@ -52,6 +42,21 @@ namespace EcoParkAnimalManagementSystem_EAMS_.Reptiles
                 }
             }
         }
+
+        protected Reptile() : base()
+        {
+            Category = CategoryType.Reptile;
+        }
+
+        protected Reptile(string name, int age, GenderType gender, double bodyLength, bool livesInWater, int aggressivenessLevel) : base(name, age, gender)
+        {
+            BodyLength = bodyLength;
+            LivesInWater = livesInWater;
+            AggressivenessLevel = aggressivenessLevel;
+            Category = CategoryType.Reptile;
+
+        }
+
 
         public override string ToString()
         {

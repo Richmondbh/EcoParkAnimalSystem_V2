@@ -8,31 +8,26 @@ using System.Xml.Linq;
 
 namespace EcoParkAnimalManagementSystem_EAMS_.AnimalGen
 {
+    // Abstract base class for all animals in the EcoPark system.
 
 
-    // This is the base class representing common properties and the behaviors for all the animals.
     public abstract class Animal: IAnimal
-
     {
         private static int nextId = 1;
 
         // Backing fields  for only properties that needs validation
-        private double age;
+        private int age;
         private double weight;
-
+        private int sleepTimeHours;
         // Auto-properties for those with no validation needed
         public int Id { get; private set; }
         public string Name { get; set; } = "Unknown";
         public GenderType Gender { get; set; } = GenderType.Unknown;
         public string ImagePath { get; set; } = string.Empty;
+        public CategoryType Category { get; protected set; }
 
 
-        public Animal()
-        {
-            Id = nextId++;
-        }
-
-        public double Age
+        public int Age
         {
             get { return age; }
             set
@@ -57,14 +52,69 @@ namespace EcoParkAnimalManagementSystem_EAMS_.AnimalGen
                 }
             }
         }
+        public int SleepTimeHours
+        {
+            get { return sleepTimeHours; }
+            protected set
+            {
+                if (value >= 0 && value <= 24)
+                {
+                    sleepTimeHours = value;
+                }
+            }
+        }
+
+        // Initializes a new instance of the Animal class with default values.
+        protected Animal()
+        {
+            Id = nextId++;
+            Name = "Unknown";
+            Age = 0;
+            Gender = GenderType.Unknown;
+            sleepTimeHours = 0;
+        }
+
+        // Initializes a new instance of the Animal class with specified values.
+        protected Animal(string name, int age, GenderType gender) : this()
+        {
+            Name = name;
+            Age = age;
+            Gender = gender;
+        }
+
+        public virtual void SetSleepTime()
+        {
+            sleepTimeHours = 0;
+        }
+
+        public abstract int GetAverageLifeSpan();
+
+        public abstract Dictionary<string, string> DailyFoodRequirement();
+
+        public abstract Queue<string> GetUpcomingEvents();
+
+        public virtual string ToStringSummary()
+        {
+            return $"{Id,-8} {Name,-15} {Age,3} yrs  {Gender,-8}";
+        }
+
 
         public override string ToString()
         {
-            return $"ID: {Id}\n" +
-                   $"Name: {Name}\n" +
-                   $"Age: {Age}\n" +
-                   $"Weight: {Weight}\n" +
-                   $"Gender: {Gender}";
+            string output = string.Empty;
+            output += $"ID: {Id}\n";
+            output += $"Name: {Name}\n";
+            output += $"Age: {Age} years\n";
+            output += $"Gender: {Gender}\n";
+            output += $"Weight: {Weight}\n";
+            output += $"Category:{Category}\n";
+
+            if (sleepTimeHours > 0)
+            {
+                output += $"Sleep Time: {sleepTimeHours} hours/day\n";
+            }
+
+            return output;
         }
 
     }
