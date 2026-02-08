@@ -23,7 +23,7 @@ namespace EcoParkAnimalManagementSystem_EAMS_.Infrastructure
             }
 
             string categoryPrefix = GetCategoryPrefix(animal.Category);
-            animal.Id = categoryPrefix + startID.ToString();
+           // animal.Id = categoryPrefix + startID.ToString();
             startID++;
         }
 

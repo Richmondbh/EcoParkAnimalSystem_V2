@@ -34,11 +34,11 @@
             helpToolStripMenuItem1 = new ToolStripMenuItem();
             aboutToolStripMenuItem = new ToolStripMenuItem();
             grpCreateAnimal = new GroupBox();
-            btnLoadImage = new Button();
             btnCreateAnimal = new Button();
             chkListAllSpecies = new CheckBox();
             lstSpecies = new ListBox();
             lstCategory = new ListBox();
+            btnLoadImage = new Button();
             grpGeneralData = new GroupBox();
             btnAdd = new Button();
             cmbGender = new ComboBox();
@@ -63,7 +63,7 @@
             menuStrip.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, helpToolStripMenuItem1 });
             menuStrip.Location = new Point(0, 0);
             menuStrip.Name = "menuStrip";
-            menuStrip.Size = new Size(656, 28);
+            menuStrip.Size = new Size(1007, 28);
             menuStrip.TabIndex = 0;
             menuStrip.Text = "menuStrip1";
             // 
@@ -97,7 +97,6 @@
             // 
             // grpCreateAnimal
             // 
-            grpCreateAnimal.Controls.Add(btnLoadImage);
             grpCreateAnimal.Controls.Add(btnCreateAnimal);
             grpCreateAnimal.Controls.Add(chkListAllSpecies);
             grpCreateAnimal.Controls.Add(lstSpecies);
@@ -109,21 +108,12 @@
             grpCreateAnimal.TabStop = false;
             grpCreateAnimal.Text = "Create Animal";
             // 
-            // btnLoadImage
-            // 
-            btnLoadImage.Location = new Point(130, 167);
-            btnLoadImage.Name = "btnLoadImage";
-            btnLoadImage.Size = new Size(109, 29);
-            btnLoadImage.TabIndex = 4;
-            btnLoadImage.Text = "Load Image";
-            btnLoadImage.UseVisualStyleBackColor = true;
-            btnLoadImage.Click += btnLoadImage_Click;
-            // 
             // btnCreateAnimal
             // 
-            btnCreateAnimal.Location = new Point(21, 167);
+            btnCreateAnimal.ForeColor = SystemColors.ActiveCaptionText;
+            btnCreateAnimal.Location = new Point(50, 165);
             btnCreateAnimal.Name = "btnCreateAnimal";
-            btnCreateAnimal.Size = new Size(94, 29);
+            btnCreateAnimal.Size = new Size(183, 29);
             btnCreateAnimal.TabIndex = 3;
             btnCreateAnimal.Text = "Create Animal";
             btnCreateAnimal.TextImageRelation = TextImageRelation.TextBeforeImage;
@@ -133,7 +123,7 @@
             // chkListAllSpecies
             // 
             chkListAllSpecies.AutoSize = true;
-            chkListAllSpecies.Location = new Point(17, 142);
+            chkListAllSpecies.Location = new Point(121, 26);
             chkListAllSpecies.Name = "chkListAllSpecies";
             chkListAllSpecies.Size = new Size(174, 24);
             chkListAllSpecies.TabIndex = 2;
@@ -144,7 +134,7 @@
             // lstSpecies
             // 
             lstSpecies.FormattingEnabled = true;
-            lstSpecies.Location = new Point(121, 26);
+            lstSpecies.Location = new Point(160, 57);
             lstSpecies.Name = "lstSpecies";
             lstSpecies.Size = new Size(135, 104);
             lstSpecies.TabIndex = 1;
@@ -153,11 +143,21 @@
             // lstCategory
             // 
             lstCategory.FormattingEnabled = true;
-            lstCategory.Location = new Point(15, 25);
+            lstCategory.Location = new Point(6, 54);
             lstCategory.Name = "lstCategory";
-            lstCategory.Size = new Size(100, 104);
+            lstCategory.Size = new Size(133, 104);
             lstCategory.TabIndex = 0;
             lstCategory.SelectedIndexChanged += lstCategory_SelectedIndexChanged;
+            // 
+            // btnLoadImage
+            // 
+            btnLoadImage.Location = new Point(828, 235);
+            btnLoadImage.Name = "btnLoadImage";
+            btnLoadImage.Size = new Size(109, 29);
+            btnLoadImage.TabIndex = 4;
+            btnLoadImage.Text = "Load Image";
+            btnLoadImage.UseVisualStyleBackColor = true;
+            btnLoadImage.Click += btnLoadImage_Click;
             // 
             // grpGeneralData
             // 
@@ -170,7 +170,7 @@
             grpGeneralData.Controls.Add(lblAge);
             grpGeneralData.Controls.Add(txtName);
             grpGeneralData.Controls.Add(lblName);
-            grpGeneralData.Location = new Point(18, 266);
+            grpGeneralData.Location = new Point(376, 35);
             grpGeneralData.Name = "grpGeneralData";
             grpGeneralData.Size = new Size(309, 212);
             grpGeneralData.TabIndex = 2;
@@ -256,18 +256,18 @@
             // picAnimal
             // 
             picAnimal.BorderStyle = BorderStyle.FixedSingle;
-            picAnimal.Location = new Point(389, 44);
+            picAnimal.Location = new Point(719, 35);
             picAnimal.Name = "picAnimal";
-            picAnimal.Size = new Size(218, 177);
+            picAnimal.Size = new Size(346, 194);
             picAnimal.SizeMode = PictureBoxSizeMode.Zoom;
             picAnimal.TabIndex = 3;
             picAnimal.TabStop = false;
             // 
             // lblAnimalInfo
             // 
-            lblAnimalInfo.Location = new Point(376, 266);
+            lblAnimalInfo.Location = new Point(453, 321);
             lblAnimalInfo.Name = "lblAnimalInfo";
-            lblAnimalInfo.Size = new Size(268, 253);
+            lblAnimalInfo.Size = new Size(268, 278);
             lblAnimalInfo.TabIndex = 4;
             lblAnimalInfo.Text = ".";
             // 
@@ -275,9 +275,11 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(656, 564);
-            Controls.Add(lblAnimalInfo);
+            BackgroundImageLayout = ImageLayout.Stretch;
+            ClientSize = new Size(1007, 576);
             Controls.Add(picAnimal);
+            Controls.Add(btnLoadImage);
+            Controls.Add(lblAnimalInfo);
             Controls.Add(grpGeneralData);
             Controls.Add(grpCreateAnimal);
             Controls.Add(menuStrip);
@@ -287,6 +289,7 @@
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "EcoPark Animal Management System";
+            Load += MainForm_Load;
             menuStrip.ResumeLayout(false);
             menuStrip.PerformLayout();
             grpCreateAnimal.ResumeLayout(false);

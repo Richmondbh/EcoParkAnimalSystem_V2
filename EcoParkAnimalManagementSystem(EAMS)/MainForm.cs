@@ -1,15 +1,17 @@
 using EcoParkAnimalManagementSystem_EAMS_.AnimalGen;
+using EcoParkAnimalManagementSystem_EAMS_.Infrastructure;
 using EcoParkAnimalManagementSystem_EAMS_.Mammals;
 using EcoParkAnimalManagementSystem_EAMS_.Reptiles;
 using EcoParkAnimalManagementSystem_EAMS_.Utilities;
 
 namespace EcoParkAnimalManagementSystem_EAMS_
 {
-   
+
     // Main form for the EcoPark Animal Management System.
     public partial class MainForm : Form
     {
-        private Animal animal = null;
+        private AnimalManager animalManager;
+        private Animal currentAnimal = null;
         private string selectedImagePath = string.Empty;
 
 
@@ -19,10 +21,11 @@ namespace EcoParkAnimalManagementSystem_EAMS_
             InitializeGUI();
         }
 
-       
+
         // Initializes all GUI components.
         private void InitializeGUI()
         {
+            animalManager = new AnimalManager();
             // Populate category list
             lstCategory.Items.Clear();
             foreach (CategoryType category in Enum.GetValues(typeof(CategoryType)))
@@ -42,9 +45,11 @@ namespace EcoParkAnimalManagementSystem_EAMS_
             ClearInputFields();
             lblAnimalInfo.Text = string.Empty;
             picAnimal.Image = null;
+
+            UpdateAnimalListDisplay();
         }
 
-    
+
         // Clears all input fields
         private void ClearInputFields()
         {
@@ -53,6 +58,7 @@ namespace EcoParkAnimalManagementSystem_EAMS_
             txtWeight.Text = string.Empty;
             cmbGender.SelectedIndex = 0;
             selectedImagePath = string.Empty;
+            currentAnimal = null;
         }
 
 
@@ -109,7 +115,7 @@ namespace EcoParkAnimalManagementSystem_EAMS_
             }
         }
 
-     
+
         // Highlights category for selected species.
         private void HighlightCategoryForSelectedSpecies()
         {
@@ -201,7 +207,7 @@ namespace EcoParkAnimalManagementSystem_EAMS_
             if (mammalView.ShowDialog() == DialogResult.OK)
             {
                 //  receiving animal from form
-                animal = mammalView.Animal;
+                currentAnimal = mammalView.Animal;
             }
         }
 
@@ -212,14 +218,14 @@ namespace EcoParkAnimalManagementSystem_EAMS_
             if (reptileView.ShowDialog() == DialogResult.OK)
             {
                 //  Dynamic binding - receiving animal from form
-                animal = reptileView.Animal;
+                currentAnimal = reptileView.Animal;
             }
         }
 
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            if (animal == null)
+            if (currentAnimal == null)
             {
                 MessageBox.Show("Please create an animal first by clicking the 'Create Animal Button'.",
                     "No Animal", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -229,8 +235,26 @@ namespace EcoParkAnimalManagementSystem_EAMS_
             if (!ReadGeneralAnimalData())
                 return;
 
-            UpdateGUI();
+
+            animalManager.SetNewID(currentAnimal);
+
+            if (animalManager.Add(currentAnimal))
+            {
+                UpdateAnimalListDisplay();
+                ClearInputFields();
+                lblAnimalInfo.Text = string.Empty;
+                picAnimal.Image = null;
+
+                MessageBox.Show("Animal added successfully!",
+                    "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("Failed to add animal.",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
+
 
         /// <summary>
         /// Reads general animal data from GUI.
@@ -265,8 +289,208 @@ namespace EcoParkAnimalManagementSystem_EAMS_
             }
 
             // works for any species
+            currentAnimal.Name = txtName.Text;
+            currentAnimal.Age = (int)age;
+            currentAnimal.Weight = weight;
+            currentAnimal.Gender = (GenderType)cmbGender.SelectedItem;
+            currentAnimal.ImagePath = selectedImagePath;
+
+            return true;
+        }
+
+
+        /// Updates the display
+        /// 
+
+        private void UpdateAnimalListDisplay()
+        {
+            //if (lstAnimals == null)
+            //    return;
+
+            //lstAnimals.Items.Clear();
+
+            string[] animalSummaries = animalManager.ToStringSummaryAllAnimals();
+
+            foreach (string summary in animalSummaries)
+            {
+                //lstAnimals.Items.Add(summary);
+            }
+        }
+
+        //private void UpdateGUI()
+        //{
+        //    if (currentAnimal == null)
+        //    {
+        //        lblAnimalInfo.Text = string.Empty;
+        //        return;
+        //    }
+
+
+        //    lblAnimalInfo.Text = currentAnimal.ToString();
+
+        //    if (!string.IsNullOrEmpty(currentAnimal.ImagePath))
+        //    {
+        //        try
+        //        {
+        //            picAnimal.Image = Image.FromFile(currentAnimal.ImagePath);
+        //        }
+        //        catch
+        //        {
+        //            picAnimal.Image = null;
+        //        }
+        //    }
+        //}
+
+        private void lstAnimals_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int index = 0;
+           // int index = lstAnimals.SelectedIndex;
+            if (index < 0)
+            {
+                lblAnimalInfo.Text = string.Empty;
+                picAnimal.Image = null;
+                return;
+            }
+
+            string detailedInfo = animalManager.GetDetailedAnimalInfo(index);
+            lblAnimalInfo.Text = detailedInfo;
+
+            Animal selectedAnimal = animalManager.GetAt(index);
+            if (selectedAnimal != null && !string.IsNullOrEmpty(selectedAnimal.ImagePath))
+            {
+                try
+                {
+                    picAnimal.Image = Image.FromFile(selectedAnimal.ImagePath);
+                }
+                catch
+                {
+                    picAnimal.Image = null;
+                }
+            }
+            else
+            {
+                picAnimal.Image = null;
+            }
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            int index = 0;
+            //int index = lstAnimals.SelectedIndex;
+            if (index < 0)
+            {
+                MessageBox.Show("Please select an animal to delete.",
+                    "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            Animal animalToDelete = animalManager.GetAt(index);
+            string animalName = animalToDelete != null ? animalToDelete.Name : "this animal";
+
+            DialogResult result = MessageBox.Show(
+                $"Are you sure you want to delete {animalName}?",
+                "Confirm Delete",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                if (animalManager.DeleteAt(index))
+                {
+                    UpdateAnimalListDisplay();
+                    lblAnimalInfo.Text = string.Empty;
+                    picAnimal.Image = null;
+
+                    MessageBox.Show("Animal deleted successfully.",
+                        "Deleted", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
+
+        private void btnChange_Click(object sender, EventArgs e)
+        {
+            int index = 0;
+            //int index = lstAnimals.SelectedIndex;
+            if (index < 0)
+            {
+                MessageBox.Show("Please select an animal to modify.",
+                    "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            Animal animalToEdit = animalManager.GetAt(index);
+            if (animalToEdit == null)
+                return;
+
+            txtName.Text = animalToEdit.Name;
+            txtAge.Text = animalToEdit.Age.ToString();
+            txtWeight.Text = animalToEdit.Weight.ToString();
+            cmbGender.SelectedItem = animalToEdit.Gender;
+            selectedImagePath = animalToEdit.ImagePath;
+
+            if (!string.IsNullOrEmpty(animalToEdit.ImagePath))
+            {
+                try
+                {
+                    picAnimal.Image = Image.FromFile(animalToEdit.ImagePath);
+                }
+                catch
+                {
+                    picAnimal.Image = null;
+                }
+            }
+
+            DialogResult result = MessageBox.Show(
+                "Modify the animal's information and click OK when done.",
+                "Edit Mode",
+                MessageBoxButtons.OKCancel,
+                MessageBoxIcon.Information);
+
+            if (result == DialogResult.OK)
+            {
+                if (ReadGeneralAnimalDataForEdit(animalToEdit))
+                {
+                    if (animalManager.ChangeAt(animalToEdit, index))
+                    {
+                        UpdateAnimalListDisplay();
+                        //lstAnimals.SelectedIndex = index;
+
+                        MessageBox.Show("Animal updated successfully!",
+                            "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+
+            ClearInputFields();
+        }
+
+        private bool ReadGeneralAnimalDataForEdit(Animal animal)
+        {
+            if (string.IsNullOrWhiteSpace(txtName.Text))
+            {
+                MessageBox.Show("Please enter a name.",
+                    "Input Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            (double age, bool okAge) = NumericUtility.GetDouble(txtAge.Text);
+            if (!okAge || age < 0)
+            {
+                MessageBox.Show("Please enter a valid age.",
+                    "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            (double weight, bool okWeight) = NumericUtility.GetDouble(txtWeight.Text);
+            if (!okWeight || weight < 0)
+            {
+                MessageBox.Show("Please enter a valid weight.",
+                    "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
             animal.Name = txtName.Text;
-            animal.Age = age;
+            animal.Age = (int)age;
             animal.Weight = weight;
             animal.Gender = (GenderType)cmbGender.SelectedItem;
             animal.ImagePath = selectedImagePath;
@@ -274,31 +498,6 @@ namespace EcoParkAnimalManagementSystem_EAMS_
             return true;
         }
 
-
-        /// Updates the display
-        private void UpdateGUI()
-        {
-            if (animal == null)
-            {
-                lblAnimalInfo.Text = string.Empty;
-                return;
-            }
-
-        
-            lblAnimalInfo.Text = animal.ToString();
-
-            if (!string.IsNullOrEmpty(animal.ImagePath))
-            {
-                try
-                {
-                    picAnimal.Image = Image.FromFile(animal.ImagePath);
-                }
-                catch
-                {
-                    picAnimal.Image = null;
-                }
-            }
-        }
 
         private void btnLoadImage_Click(object sender, EventArgs e)
         {
@@ -337,6 +536,11 @@ namespace EcoParkAnimalManagementSystem_EAMS_
                 "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-       
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+
     }
 }
