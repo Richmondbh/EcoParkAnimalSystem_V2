@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            txtAnimalDetails = new TextBox();
             menuStrip = new MenuStrip();
             fileToolStripMenuItem = new ToolStripMenuItem();
             exitToolStripMenuItem1 = new ToolStripMenuItem();
@@ -50,12 +51,27 @@
             txtName = new TextBox();
             lblName = new Label();
             picAnimal = new PictureBox();
-            lblAnimalInfo = new Label();
+            lstAnimals = new ListBox();
+            btnDelete = new Button();
+            btnChange = new Button();
             menuStrip.SuspendLayout();
             grpCreateAnimal.SuspendLayout();
             grpGeneralData.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picAnimal).BeginInit();
             SuspendLayout();
+            // 
+            // txtAnimalDetails
+            // 
+            txtAnimalDetails.AllowDrop = true;
+            txtAnimalDetails.Location = new Point(425, 293);
+            txtAnimalDetails.Multiline = true;
+            txtAnimalDetails.Name = "txtAnimalDetails";
+            txtAnimalDetails.ReadOnly = true;
+            txtAnimalDetails.ScrollBars = ScrollBars.Vertical;
+            txtAnimalDetails.Size = new Size(494, 441);
+            txtAnimalDetails.TabIndex = 8;
+            txtAnimalDetails.WordWrap = false;
+            txtAnimalDetails.TextChanged += txtAnimalDetails_TextChanged;
             // 
             // menuStrip
             // 
@@ -63,7 +79,7 @@
             menuStrip.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, helpToolStripMenuItem1 });
             menuStrip.Location = new Point(0, 0);
             menuStrip.Name = "menuStrip";
-            menuStrip.Size = new Size(1007, 28);
+            menuStrip.Size = new Size(1092, 28);
             menuStrip.TabIndex = 0;
             menuStrip.Text = "menuStrip1";
             // 
@@ -258,28 +274,52 @@
             picAnimal.BorderStyle = BorderStyle.FixedSingle;
             picAnimal.Location = new Point(719, 35);
             picAnimal.Name = "picAnimal";
-            picAnimal.Size = new Size(346, 194);
+            picAnimal.Size = new Size(276, 194);
             picAnimal.SizeMode = PictureBoxSizeMode.Zoom;
             picAnimal.TabIndex = 3;
             picAnimal.TabStop = false;
             // 
-            // lblAnimalInfo
+            // lstAnimals
             // 
-            lblAnimalInfo.Location = new Point(453, 321);
-            lblAnimalInfo.Name = "lblAnimalInfo";
-            lblAnimalInfo.Size = new Size(268, 278);
-            lblAnimalInfo.TabIndex = 4;
-            lblAnimalInfo.Text = ".";
+            lstAnimals.FormattingEnabled = true;
+            lstAnimals.Location = new Point(12, 293);
+            lstAnimals.Name = "lstAnimals";
+            lstAnimals.Size = new Size(396, 204);
+            lstAnimals.TabIndex = 5;
+            lstAnimals.SelectedIndexChanged += lstAnimals_SelectedIndexChanged;
+            // 
+            // btnDelete
+            // 
+            btnDelete.Location = new Point(40, 524);
+            btnDelete.Name = "btnDelete";
+            btnDelete.Size = new Size(130, 29);
+            btnDelete.TabIndex = 6;
+            btnDelete.Text = "Delete";
+            btnDelete.UseVisualStyleBackColor = true;
+            btnDelete.Click += btnDelete_Click;
+            // 
+            // btnChange
+            // 
+            btnChange.Location = new Point(213, 524);
+            btnChange.Name = "btnChange";
+            btnChange.Size = new Size(143, 29);
+            btnChange.TabIndex = 7;
+            btnChange.Text = "Change";
+            btnChange.UseVisualStyleBackColor = true;
+            btnChange.Click += btnChange_Click;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(1007, 576);
+            ClientSize = new Size(1092, 774);
+            Controls.Add(txtAnimalDetails);
+            Controls.Add(btnChange);
+            Controls.Add(btnDelete);
+            Controls.Add(lstAnimals);
             Controls.Add(picAnimal);
             Controls.Add(btnLoadImage);
-            Controls.Add(lblAnimalInfo);
             Controls.Add(grpGeneralData);
             Controls.Add(grpCreateAnimal);
             Controls.Add(menuStrip);
@@ -289,7 +329,6 @@
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "EcoPark Animal Management System";
-            Load += MainForm_Load;
             menuStrip.ResumeLayout(false);
             menuStrip.PerformLayout();
             grpCreateAnimal.ResumeLayout(false);
@@ -325,6 +364,9 @@
         private Button btnAdd;
         private ComboBox cmbGender;
         private PictureBox picAnimal;
-        private Label lblAnimalInfo;
+        private ListBox lstAnimals;
+        private Button btnDelete;
+        private Button btnChange;
+        private TextBox txtAnimalDetails;
     }
 }

@@ -33,11 +33,6 @@ namespace EcoParkAnimalManagementSystem_EAMS_.Reptiles.Species
         {
         }
 
-        //public Turtle(string name, int age, GenderType gender, double bodyLength, bool livesInWater, int aggressivenessLevel) :
-        //    base(name, age, gender, bodyLength, livesInWater, aggressivenessLevel)
-        //{
-        //}
-
         public Turtle(double bodyLength, bool livesInWater, int aggressivenessLevel): base(bodyLength, livesInWater, aggressivenessLevel)
         {
             BodyLength = bodyLength;
@@ -83,13 +78,6 @@ namespace EcoParkAnimalManagementSystem_EAMS_.Reptiles.Species
         public override string ToStringSummary()
         {
             return $"{base.ToStringSummary()} | Shell: {ShellWidth}cm";
-        }
-
-        public override string ToString()
-        {
-            return $"{base.ToString()}\n" +
-                   $"Shell Hardness: {ShellHardness}\n" +
-                   $"Shell Width: {ShellWidth}";
         }
     }
 }

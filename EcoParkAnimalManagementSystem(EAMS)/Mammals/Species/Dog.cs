@@ -22,10 +22,6 @@ namespace EcoParkAnimalManagementSystem_EAMS_.Mammals.Species
         {
         }
 
-        //public Dog(string name, int age, GenderType gender, int numOfTeeth, double tailLength) :
-        //    base(name, age, gender, numOfTeeth, tailLength)
-        //{
-        //}
 
         //for Mammalfactory
         public Dog(int numOfTeeth, double tailLength) : base(numOfTeeth, tailLength)
@@ -79,13 +75,6 @@ namespace EcoParkAnimalManagementSystem_EAMS_.Mammals.Species
         public override string ToStringSummary()
         {
             return $"{base.ToStringSummary()} | Breed: {Breed}";
-        }
-
-        public override string ToString()
-        {
-            return $"{base.ToString()}\n" +
-                   $"Breed: {Breed}\n" +
-                   $"Is Trained: {IsTrained}";
         }
 
 

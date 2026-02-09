@@ -21,10 +21,6 @@ namespace EcoParkAnimalManagementSystem_EAMS_.Mammals.Species
         {
         }
 
-        //public Cat(string name, int age, GenderType gender, int numOfTeeth, double tailLength) :
-        //    base(name, age, gender, numOfTeeth, tailLength)
-        //{
-        //}
 
         //For mammal factory
         public Cat(int numOfTeeth, double tailLength) : base(numOfTeeth, tailLength)
@@ -76,12 +72,6 @@ namespace EcoParkAnimalManagementSystem_EAMS_.Mammals.Species
             return $"{base.ToStringSummary()} | Color: {FurColor}";
         }
 
-        public override string ToString()
-        {
-            return $"{base.ToString()}\n" +
-                   $"Fur Color: {FurColor}\n" +
-                   $"Is Purebred: {IsPurebred}";
-        }
     }
 
 }

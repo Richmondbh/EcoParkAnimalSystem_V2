@@ -20,7 +20,7 @@ namespace EcoParkAnimalManagementSystem_EAMS_.AnimalGen
         private double weight;
         private int sleepTimeHours;
         // Auto-properties for those with no validation needed
-        public int Id { get;  set; }
+        public string Id { get;  set; }
         public string Name { get; set; } = "Unknown";
         public GenderType Gender { get; set; } = GenderType.Unknown;
         public string ImagePath { get; set; } = string.Empty;
@@ -98,23 +98,11 @@ namespace EcoParkAnimalManagementSystem_EAMS_.AnimalGen
             return $"{Id,-8} {Name,-15} {Age,3} yrs  {Gender,-8}";
         }
 
-
+        // I created a stanadard method to update the UI, directly accesing the values
+        // so I removed all the Tostring() methods from the sub classes.
         public override string ToString()
         {
-            string output = string.Empty;
-            output += $"ID: {Id}\n";
-            output += $"Name: {Name}\n";
-            output += $"Age: {Age} years\n";
-            output += $"Gender: {Gender}\n";
-            output += $"Weight: {Weight}\n";
-            output += $"Category:{Category}\n";
-
-            if (sleepTimeHours > 0)
-            {
-                output += $"Sleep Time: {sleepTimeHours} hours/day\n";
-            }
-
-            return output;
+            return $"{Name} ({Category})";
         }
 
     }

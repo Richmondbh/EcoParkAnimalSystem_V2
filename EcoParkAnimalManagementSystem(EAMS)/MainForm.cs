@@ -43,8 +43,12 @@ namespace EcoParkAnimalManagementSystem_EAMS_
 
             // Clear inputs and output
             ClearInputFields();
-            lblAnimalInfo.Text = string.Empty;
+            txtAnimalDetails.Text = string.Empty;
             picAnimal.Image = null;
+
+            // Shows "add" on start up
+            btnAdd.Text = "Add";
+            btnAdd.Tag = null;
 
             UpdateAnimalListDisplay();
         }
@@ -225,9 +229,44 @@ namespace EcoParkAnimalManagementSystem_EAMS_
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
+            //if (currentAnimal == null)
+            //{
+            //    MessageBox.Show("Please create an animal first by clicking the 'Create Animal Button'.",
+            //        "No Animal", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //    return;
+            //}
+
+            // Check if one is in EDIT mode
+            if (btnAdd.Tag != null)
+            {
+                int editIndex = (int)btnAdd.Tag;
+                Animal animalToEdit = animalManager.GetAt(editIndex);
+
+                if (animalToEdit != null && ReadGeneralAnimalDataForEdit(animalToEdit))
+                {
+                    if (animalManager.ChangeAt(animalToEdit, editIndex))
+                    {
+                        UpdateAnimalListDisplay();
+                        lstAnimals.SelectedIndex = editIndex;
+
+                        MessageBox.Show("Animal updated successfully!",
+                            "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        // Reset to Add mode
+                        btnAdd.Text = "Add";
+                        btnAdd.Tag = null;
+                        ClearInputFields();
+                        txtAnimalDetails.Text = string.Empty;
+                        picAnimal.Image = null;
+                    }
+                }
+                return;
+            }
+
+            // Normal ADD mode
             if (currentAnimal == null)
             {
-                MessageBox.Show("Please create an animal first by clicking the 'Create Animal Button'.",
+                MessageBox.Show("Please create an animal first by clicking the 'Create Animal' button.",
                     "No Animal", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
@@ -235,14 +274,13 @@ namespace EcoParkAnimalManagementSystem_EAMS_
             if (!ReadGeneralAnimalData())
                 return;
 
-
             animalManager.SetNewID(currentAnimal);
 
             if (animalManager.Add(currentAnimal))
             {
                 UpdateAnimalListDisplay();
                 ClearInputFields();
-                lblAnimalInfo.Text = string.Empty;
+                txtAnimalDetails.Text = string.Empty;
                 picAnimal.Image = null;
 
                 MessageBox.Show("Animal added successfully!",
@@ -299,61 +337,37 @@ namespace EcoParkAnimalManagementSystem_EAMS_
         }
 
 
-        /// Updates the display
-        /// 
+        //Updates the display
 
         private void UpdateAnimalListDisplay()
         {
-            //if (lstAnimals == null)
-            //    return;
+            if (lstAnimals == null)
+                return;
 
-            //lstAnimals.Items.Clear();
+            lstAnimals.Items.Clear();
 
             string[] animalSummaries = animalManager.ToStringSummaryAllAnimals();
 
             foreach (string summary in animalSummaries)
             {
-                //lstAnimals.Items.Add(summary);
+                lstAnimals.Items.Add(summary);
             }
         }
 
-        //private void UpdateGUI()
-        //{
-        //    if (currentAnimal == null)
-        //    {
-        //        lblAnimalInfo.Text = string.Empty;
-        //        return;
-        //    }
-
-
-        //    lblAnimalInfo.Text = currentAnimal.ToString();
-
-        //    if (!string.IsNullOrEmpty(currentAnimal.ImagePath))
-        //    {
-        //        try
-        //        {
-        //            picAnimal.Image = Image.FromFile(currentAnimal.ImagePath);
-        //        }
-        //        catch
-        //        {
-        //            picAnimal.Image = null;
-        //        }
-        //    }
-        //}
 
         private void lstAnimals_SelectedIndexChanged(object sender, EventArgs e)
         {
-            int index = 0;
-           // int index = lstAnimals.SelectedIndex;
+
+            int index = lstAnimals.SelectedIndex;
             if (index < 0)
             {
-                lblAnimalInfo.Text = string.Empty;
+                txtAnimalDetails.Text = string.Empty;
                 picAnimal.Image = null;
                 return;
             }
 
             string detailedInfo = animalManager.GetDetailedAnimalInfo(index);
-            lblAnimalInfo.Text = detailedInfo;
+            txtAnimalDetails.Text = detailedInfo;
 
             Animal selectedAnimal = animalManager.GetAt(index);
             if (selectedAnimal != null && !string.IsNullOrEmpty(selectedAnimal.ImagePath))
@@ -375,8 +389,8 @@ namespace EcoParkAnimalManagementSystem_EAMS_
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            int index = 0;
-            //int index = lstAnimals.SelectedIndex;
+
+            int index = lstAnimals.SelectedIndex;
             if (index < 0)
             {
                 MessageBox.Show("Please select an animal to delete.",
@@ -398,7 +412,7 @@ namespace EcoParkAnimalManagementSystem_EAMS_
                 if (animalManager.DeleteAt(index))
                 {
                     UpdateAnimalListDisplay();
-                    lblAnimalInfo.Text = string.Empty;
+                    txtAnimalDetails.Text = string.Empty;
                     picAnimal.Image = null;
 
                     MessageBox.Show("Animal deleted successfully.",
@@ -409,8 +423,8 @@ namespace EcoParkAnimalManagementSystem_EAMS_
 
         private void btnChange_Click(object sender, EventArgs e)
         {
-            int index = 0;
-            //int index = lstAnimals.SelectedIndex;
+
+            int index = lstAnimals.SelectedIndex;
             if (index < 0)
             {
                 MessageBox.Show("Please select an animal to modify.",
@@ -418,21 +432,21 @@ namespace EcoParkAnimalManagementSystem_EAMS_
                 return;
             }
 
-            Animal animalToEdit = animalManager.GetAt(index);
-            if (animalToEdit == null)
+            Animal animalToChange = animalManager.GetAt(index);
+            if (animalToChange == null)
                 return;
 
-            txtName.Text = animalToEdit.Name;
-            txtAge.Text = animalToEdit.Age.ToString();
-            txtWeight.Text = animalToEdit.Weight.ToString();
-            cmbGender.SelectedItem = animalToEdit.Gender;
-            selectedImagePath = animalToEdit.ImagePath;
+            txtName.Text = animalToChange.Name;
+            txtAge.Text = animalToChange.Age.ToString();
+            txtWeight.Text = animalToChange.Weight.ToString();
+            cmbGender.SelectedItem = animalToChange.Gender;
+            selectedImagePath = animalToChange.ImagePath;
 
-            if (!string.IsNullOrEmpty(animalToEdit.ImagePath))
+            if (!string.IsNullOrEmpty(animalToChange.ImagePath))
             {
                 try
                 {
-                    picAnimal.Image = Image.FromFile(animalToEdit.ImagePath);
+                    picAnimal.Image = Image.FromFile(animalToChange.ImagePath);
                 }
                 catch
                 {
@@ -440,28 +454,9 @@ namespace EcoParkAnimalManagementSystem_EAMS_
                 }
             }
 
-            DialogResult result = MessageBox.Show(
-                "Modify the animal's information and click OK when done.",
-                "Edit Mode",
-                MessageBoxButtons.OKCancel,
-                MessageBoxIcon.Information);
+            btnAdd.Text = "Save Changes";
+            btnAdd.Tag = index;
 
-            if (result == DialogResult.OK)
-            {
-                if (ReadGeneralAnimalDataForEdit(animalToEdit))
-                {
-                    if (animalManager.ChangeAt(animalToEdit, index))
-                    {
-                        UpdateAnimalListDisplay();
-                        //lstAnimals.SelectedIndex = index;
-
-                        MessageBox.Show("Animal updated successfully!",
-                            "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                }
-            }
-
-            ClearInputFields();
         }
 
         private bool ReadGeneralAnimalDataForEdit(Animal animal)
@@ -536,11 +531,9 @@ namespace EcoParkAnimalManagementSystem_EAMS_
                 "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private void MainForm_Load(object sender, EventArgs e)
+        private void txtAnimalDetails_TextChanged(object sender, EventArgs e)
         {
-
+            
         }
-
-
     }
 }

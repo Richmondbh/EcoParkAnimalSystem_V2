@@ -31,11 +31,6 @@ namespace EcoParkAnimalManagementSystem_EAMS_.Reptiles.Species
         {
         }
 
-        //public Snake(string name, int age, GenderType gender, double bodyLength, bool livesInWater, int aggressivenessLevel) :
-        //    base(name, age, gender,bodyLength,livesInWater,aggressivenessLevel )
-        //{
-
-        //}
 
         public Snake(double bodyLength, bool livesInWater, int aggressivenessLevel): base(bodyLength, livesInWater, aggressivenessLevel)
         {
@@ -88,13 +83,6 @@ namespace EcoParkAnimalManagementSystem_EAMS_.Reptiles.Species
         {
             string venomStatus = IsVenomous ? "Venomous" : "Non-venomous";
             return $"{base.ToStringSummary()} | {venomStatus}";
-        }
-
-        public override string ToString()
-        {
-            return $"{base.ToString()}\n" +
-                   $"Is Venomous: {IsVenomous}\n" +
-                   $"Speed: {Speed} km/h";
         }
 
     }

@@ -48,28 +48,12 @@ namespace EcoParkAnimalManagementSystem_EAMS_.Mammals
             NumberOfTeeth = 0;
         }
 
-        // Initializes a new instance of the Mammal class with specified values.
-        protected Mammal(string name, int age, GenderType gender, int numberOfTeeth, double tailLength)
-            : base(name, age, gender)
-        {
-            Category = CategoryType.Mammal;
-            NumberOfTeeth = numberOfTeeth;
-            TailLength = tailLength;
-        }
-
         // For mammalfactory
         protected Mammal(int numberOfTeeth, double tailLength) : base()
         {
             Category = CategoryType.Mammal;
             NumberOfTeeth = numberOfTeeth;
             TailLength = tailLength;
-        }
-
-        public override string ToString()
-        {
-            return $"{base.ToString()}\n" +
-                   $"Number of Teeth: {NumberOfTeeth}\n" +
-                   $"Tail Length: {TailLength}";
         }
     }
 }

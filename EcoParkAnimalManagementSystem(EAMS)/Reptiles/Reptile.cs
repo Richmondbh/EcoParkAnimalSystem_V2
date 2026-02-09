@@ -48,16 +48,6 @@ namespace EcoParkAnimalManagementSystem_EAMS_.Reptiles
             Category = CategoryType.Reptile;
         }
 
-        protected Reptile(string name, int age, GenderType gender, double bodyLength, bool livesInWater, int aggressivenessLevel) : base(name, age, gender)
-        {
-            BodyLength = bodyLength;
-            LivesInWater = livesInWater;
-            AggressivenessLevel = aggressivenessLevel;
-            Category = CategoryType.Reptile;
-
-        }
-
-
         protected Reptile(double bodyLength, bool livesInWater, int aggressivenessLevel) : base()
         {
             BodyLength = bodyLength;
@@ -67,12 +57,5 @@ namespace EcoParkAnimalManagementSystem_EAMS_.Reptiles
 
         }
 
-        public override string ToString()
-        {
-            return $"{base.ToString()}\n" +
-                   $"Body Length: {BodyLength}\n" +
-                   $"Lives in Water: {LivesInWater}\n" +
-                   $"Aggressiveness Level: {AggressivenessLevel}";
-        }
     }
 }
