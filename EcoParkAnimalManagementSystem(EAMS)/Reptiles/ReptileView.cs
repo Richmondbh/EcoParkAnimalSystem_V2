@@ -25,10 +25,8 @@ namespace EcoParkAnimalManagementSystem_EAMS_.Reptiles
         private Animal animal = null;
         private ReptileSpecies species;
 
-        /// <summary>
-        /// Initializes the ReptileView form for the specified species.
-        /// </summary>
-        /// <param name="speciesIndex">Index of the selected species.</param>
+
+        // Initializes the ReptileView form for the specified species.
         public ReptileView(int speciesIndex)
         {
             InitializeComponent();
@@ -62,7 +60,7 @@ namespace EcoParkAnimalManagementSystem_EAMS_.Reptiles
 
 
         // Adjusts the GUI based on the selected species.
-
+     
         private void ShowReptileSpecies()
         {
             // Dynamic text - changes per species
@@ -121,11 +119,8 @@ namespace EcoParkAnimalManagementSystem_EAMS_.Reptiles
             DialogResult = DialogResult.Cancel;
         }
 
-        /// <summary>
-        /// Creates the reptile species object.
-        /// Dynamic binding demonstrated here.
-        /// </summary>
-        /// <returns>True if successful, false otherwise.</returns>
+    
+        // Creates the reptile species object.
         private bool CreateReptileSpecies()
         {
             // Validate body length

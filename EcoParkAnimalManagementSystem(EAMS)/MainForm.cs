@@ -229,12 +229,6 @@ namespace EcoParkAnimalManagementSystem_EAMS_
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            //if (currentAnimal == null)
-            //{
-            //    MessageBox.Show("Please create an animal first by clicking the 'Create Animal Button'.",
-            //        "No Animal", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            //    return;
-            //}
 
             // Check if one is in EDIT mode
             if (btnAdd.Tag != null)
